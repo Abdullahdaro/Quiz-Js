@@ -10,6 +10,7 @@
 	<h1>Radio Quiz</h1>
 	<form id="quiz-form">
 		<div>
+			
 			<label id="question-1-label" class="quiz-box " >
 				<h3>Для кого вы ищете учебное заведение? </h3>
 				<div class="column">
@@ -36,50 +37,58 @@
 					<button type="button" id="next-button" onclick="showNextQuestion(2)" disabled>Далее ></button>
 					<button type="button" id="return-button" onclick="showPreviousQuestion(1)" style="display: none;">Назад</button>
 				</div>
-					
 			</label>
+
 			<label id="question-2-label" style="display: none;" class="quiz-box ">
 				<h3>В каком городе планируете поступать?</h3>
-				<select name="q2" onchange="enableNextButton(2, 'select')" class="js-example-basic-single">
-				  <option value="">Выберите город</option>
-				  <option value="Москва">Москва</option>
-				  <option value="Санкт-Петербург">Санкт-Петербург</option>
-				  <option value="Новосибирск">Новосибирск</option>
-				  <option value="Екатеринбург">Екатеринбург</option>
-				  <option value="Казань">Казань</option>
-				</select>
-
-				<div class="custom-select" name="q2" onchange="enableNextButton(2, 'select')">
-					<div class="select-selected">Выберите город </div>
+				<div class="custom-select"  onchange="enableNextButton(2, 'div')">
+					<div class="select-selected">Выберите город</div>
 					<ul class="select-options">
-					  <li class="option">Москва</li>
-					  <li class="option">Санкт-Петербург</li>
-					  <li class="option">Новосибирск</li>
-					  <li class="option">Екатеринбург</li>
-					  <li class="option">Казань</li>
+						<li class="option" value="Москва" onclick="selectOption(this)">Москва</li>
+						<li class="option" value="Санкт-Петербург" onclick="selectOption(this)">Санкт-Петербург</li>
+						<li class="option" value="Новосибирск" onclick="selectOption(this)">Новосибирск</li>
+						<li class="option" value="Екатеринбург" onclick="selectOption(this)">Екатеринбург</li>
+						<li class="option" value="Казань" onclick="selectOption(this)">Казань</li>
 					</ul>
-				  </div>
+					<input type="hidden" name="q2" id="q2" value="">
+				</div>
 				<div class="buttons">
 				<button type="button" id="next-button2" onclick="showNextQuestion(3)" disabled>Далее</button>
 				<button type="button" id="return-button2" onclick="showPreviousQuestion(2)">Назад</button>
 				</div>
 			</label>
+
 			<label id="question-3-label" style="display: none;">
 				<h3>Question 3: What is the capital of France?</h3>
 				<form>
-				  <label for="name">Name:</label>
-				  <input type="text" id="name" name="name" required><br>
-				  <label for="phone">Phone number:</label>
-				  <input type="tel" id="phone" name="phone" required><br>
-				  <label for="email">Email:</label>
-				  <input type="email" id="email" name="email" required><br>
-				  <button type="button" id="return-button3" onclick="showPreviousQuestion(3)">Previous</button>
-				  <button type="submit" id="submit-button">Submit</button>
+					<label for="name">Name:</label>
+					<input type="text" id="name" name="name" required><br>
+					<label for="phone">Phone number:</label>
+					<input type="tel" id="phone" name="phone" required><br>
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required><br>
+					<button type="button" id="return-button3" onclick="showPreviousQuestion(3)">Previous</button>
+					<button type="submit" id="submit-button">Submit</button>
 				</form>
-			  </label>
-	    </div>
+			</label>
+		</div>
 	</form>
 	<script>
+		function selectOption(option) {
+			// Get the parent div
+			var selectDiv = option.closest('.custom-select');
+
+			// Set the value of the selected option in the .select-selected div
+			selectDiv.querySelector('.select-selected').innerText = option.innerText;
+
+			// Set the value of the selected option in the hidden select element
+			var select = selectDiv.querySelector('input[type=hidden]');
+			select.value = option.getAttribute('value');
+
+			// Enable the next button
+			enableNextButton(2, 'div');
+		}
+
 		function showNextQuestion(questionNumber) {
 			const currentQuestionLabel = document.querySelector(`#question-${questionNumber - 1}-label`);
 			const nextQuestionLabel = document.querySelector(`#question-${questionNumber}-label`);
@@ -92,18 +101,32 @@
 		}
 		
 		function enableNextButton(questionNumber, questionType) {
-		let nextButtonId = '#next-button';
-		if (questionNumber === 2) {
-			nextButtonId = '#next-button2';
+			let nextButtonId = '#next-button';
+			if (questionNumber === 2) {
+				nextButtonId = '#next-button2';
+			}
+
+			if (questionType === 'radio') {
+				let isAnswered = false;
+				isAnswered = document.querySelector(`input[name=q${questionNumber}]:checked`);
+				document.querySelector(nextButtonId).disabled = !isAnswered;
+			} else if (questionType === 'div') {
+				let hiddenInput = document.querySelector(`[name=q${questionNumber}] input[type=hidden]`);
+				let hiddenInputValue = hiddenInput ? hiddenInput.value : '';
+				let isAnswered = hiddenInputValue !== '';
+				let selectedOptionValue = document.querySelector(`[name=q${questionNumber}] .select-selected`);
+				hiddenInput = selectedOptionValue;
+				document.querySelector(nextButtonId).disabled = !isAnswered;
+			}
 		}
-		let isAnswered = false;
-		if (questionType === 'radio') {
-			isAnswered = document.querySelector(`input[name=q${questionNumber}]:checked`);
-		} else if (questionType === 'select') {
-			isAnswered = document.querySelector(`select[name=q${questionNumber}]`).value !== '';
-		}
-		document.querySelector(nextButtonId).disabled = !isAnswered;
-		}
+
+		window.addEventListener('DOMContentLoaded', () => {
+  const inputElement = document.querySelector('#q2');
+  inputElement.addEventListener('change', () => {
+    enableNextButton(2, 'div');
+  });
+});
+
 
 		function showPreviousQuestion(questionNumber) {
 			const currentQuestionLabel = document.querySelector(`#question-${questionNumber}-label`);
@@ -116,28 +139,21 @@
 
 		var customSelect = document.querySelector('.custom-select');
 
-// Get the selected option element
-var selectedOption = customSelect.querySelector('.select-selected');
+		// Get the selected option element
+		var selectedOption = customSelect.querySelector('.select-selected');
 
-// Get the options list
-var optionsList = customSelect.querySelector('.select-options');
+		// Get the options list
+		var optionsList = customSelect.querySelector('.select-options');
 
-// Show/hide the options list when the selected option is clicked
-selectedOption.addEventListener('click', function() {
-  if (optionsList.style.display === 'none') {
-    optionsList.style.display = 'block';
-  } else {
-    optionsList.style.display = 'none';
-  }
-});
+		// Show/hide the options list when the selected option is clicked
+		selectedOption.addEventListener('click', function() {
+		if (optionsList.style.display === 'none') {
+			optionsList.style.display = 'block';
+		} else {
+			optionsList.style.display = 'none';
+		}
+		});
 
-// Set the selected option when an option is clicked
-/* optionsList.addEventListener('click', function(e) {
-  if (e.target.classList.contains('option')) {
-    selectedOption.textContent = e.target.textContent;
-    optionsList.style.display = 'none';
-  }
-}); */
 
 		const quizForm = document.querySelector('#quiz-form');
 		quizForm.addEventListener('submit', (event) => {
