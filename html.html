@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz</title>
+	<style>
+		body {
+			font-size: 16px;
+			font-family: Arial, sans-serif;
+		}
+		.quiz-box {
+			background-color: #f2f2f2;
+			padding: 20px;
+			margin-bottom: 20px;
+			border-radius: 10px;
+		}
+		.quiz-question-label {
+			display: block;
+			margin-bottom: 20px;
+		}
+		.quiz-answer-column {
+			columns: 2;
+			column-gap: 20px;
+		}
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+			margin-right: 10px;
+		}
+		button:hover {
+			background-color: #3e8e41;
+		}
+		select {
+			font-size: 16px;
+			padding: 10px;
+			border-radius: 5px;
+		}
+	</style>
+	<script>
+		function showNextQuestion(questionNumber) {
+			const currentQuestionLabel = document.querySelector(`#question-${questionNumber - 1}-label`);
+			const nextQuestionLabel = document.querySelector(`#question-${questionNumber}-label`);
+			currentQuestionLabel.style.display = 'none';
+			nextQuestionLabel.style.display = 'block';
+			if (questionNumber === 3) {
+				document.querySelector('#submit-button').disabled = false;
+				document.querySelector('#next-button2').disabled = true;
+			}
+		}
+		
+		function enableNextButton() {
+			if (document.querySelector('input[type=radio]:checked')) {
+				document.querySelector('#next-button').disabled = false;
+				document.querySelector('#next-button2').disabled = false;
+			}
+		}
+		
+		const quizForm = document.querySelector('#quiz-form');
+		quizForm.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const formData = new FormData(quizForm);
+			const answers = {};
+			for (const pair of formData.entries()) {
+				answers[pair[0]] = pair[1];
+			}
+			console.log(answers);
+			alert('Thank you for taking the quiz!');
+		});
+    </script>
+    <body>
+        <form class="quiz-form">
+            <!-- Quiz steps -->
+            <div class="quiz-step">
+              <h2 class="quiz-step-title">Step 1/9</h2>
+              <div class="quiz-box">
+                <label id="question-0-label" class="quiz-question-label">Question 1</label>
+                <div class="quiz-answer-column">
+                  <div class="quiz-answer">
+                    <input type="radio" name="question1" value="answer1" onchange="enableNextButton()">
+                    <label>Answer 1</label>
+                  </div>
+                  <div class="quiz-answer">
+                    <input type="radio" name="question1" value="answer2" onchange="enableNextButton()">
+                    <label>Answer 2</label>
+                  </div>
+                  <div class="quiz-answer">
+                    <input type="radio" name="question1" value="answer3" onchange="enableNextButton()">
+                    <label>Answer 3</label>
+                  </div>
+                </div>
+              </div>
+              <div class="quiz-nav-buttons">
+                <button class="quiz-back-button" disabled>Back</button>
+                <button class="quiz-next-button" id="next-button" onclick="showNextQuestion(2)" disabled>Next</button>
+              </div>
+            </div>
+            <div class="quiz-step">
+              <h2 class="quiz-step-title">Step 2/9</h2>
+              <div class="quiz-box">
+                <label id="question-1-label" class="quiz-question-label">Question 2</label>
+                <select name="question2" class="quiz-select" onchange="enableNextButton()">
+                  <option value="" disabled selected>Select an option</option>
+                  <option value="option1">Option 1</option>
+                  <option value="option2">Option 2</option>
+                  <option value="option3">Option 3</option>
+                </select>
+              </div>
+              <div class="quiz-nav-buttons">
+                <button class="quiz-back-button" onclick="showNextQuestion(1)">Back</button>
+                <button class="quiz-next-button" id="next-button2" onclick="showNextQuestion(3)" disabled>Next</button>
+              </div>
+            </div>
+            <div class="quiz-step">
+              <h2 class="quiz-step-title">Step 3/9</h2>
+              <div class="quiz-box">
+                <label id="question-2-label" class="quiz-question-label">Question 3</label>
+                <input type="text" name="question3" onchange="enableNextButton()">
+              </div>
+              <div class="quiz-nav-buttons">
+                <button class="quiz-back-button" onclick="showNextQuestion(2)">Back</button>
+                <button class="quiz-next-button" id="submit-button" type="submit" disabled>Submit</button>
+              </div>
+            </div>
+            <!-- Add more steps as needed -->
+            <!-- Success message modal -->
+            <div class="modal">
+              <div class="modal-content">
+                <h2>Success!</h2>
+                <p>Your quiz has been submitted successfully.</p>
+              </div>
+            </div>
+          </form>
+    </body>

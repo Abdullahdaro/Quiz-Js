@@ -1,0 +1,257 @@
+body {
+	font-size: 16px;
+	font-family: Arial, sans-serif;
+    background-color: #CAFFA0;
+}
+
+.quiz-box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: #ffff;
+    position: absolute;
+    padding: 30px;
+    width: 576px;
+    height: 392px;
+    border-radius: 24px;
+    display: grid;
+}
+
+.quiz-box .intro {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+/* Set background color for quiz boxes */
+.quiz-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    height: 20px;
+    font-family: 'Onest', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+.quiz-box input[type="radio"] {
+    margin-right: 0.5rem;
+    border: #383838;
+}
+
+.quiz-box label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-box .column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.1rem;
+
+}
+
+.quiz-box .column label {
+    display: block;
+    gap: 8px;
+    width: 252px;
+    height: 40px;
+    border-radius: 16px;
+    padding: 10px 16px;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.quiz-box .column label:hover {
+    cursor: pointer;
+}
+
+.quiz-box .column input[type="radio"]:checked + label {
+    background-color: white;
+    color: black; /* added to change the text color when checked */
+  }
+
+.quiz-box .buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    justify-content: space-between;
+}
+
+.quiz-box button {
+    display: flex;
+    margin-top: 40px;
+    color: #ffff;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 4px;
+    width: 108px;
+    height: 44px;
+    background: #383838;
+    border-radius: 12px;
+    font-family: 'Onest', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+input[type=radio] {
+    /* Hide the default radio button */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Set the size of the radio button circle */
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    /* Set the border and background of the radio button circle */
+    border: 1px solid #D8D8D8 !important;
+    background-color: #F5F5F5;
+    /* Add margin and padding to the radio button */
+    margin-right: 8px;
+    padding: 0;
+}
+  /* When the radio button is checked, fill the circle with black */
+input[type=radio]:checked {
+    background-color: #000;
+}
+  /* When the radio button is checked, show the inner circle */
+input[type=radio]:checked::before {
+    content: '';
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 6px;
+}
+
+@media (max-width: 768px) {
+    .quiz-box .column {
+        grid-template-columns: 1fr;
+    }
+}
+
+.quiz-box select {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.1rem;
+    gap: 8px;
+    width: 100%;
+    height: 40px;
+    border-radius: 16px;
+    padding: 10px 16px;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.quiz-box select option {
+    display: flex;
+    gap: 8px;
+    width: 252px;
+    height: 40px;
+    border-radius: 16px;
+    padding: 10px 16px;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.quiz-box .custom-select {
+    position: relative;
+  }
+  
+.quiz-box .select-selected {
+    display: block;
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width: 94%;
+    height: 30px;
+    border-radius: 16px;
+    padding: 10px 16px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .quiz-box .select-selected:hover {
+    background-color: #ccc;
+  }
+  
+  .quiz-box  .select-options {
+    display: none;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    background-color: #fff;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: flex;
+    flex-direction: column;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #FFFFFF;
+  }
+  
+  .quiz-box  .option {
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+    flex-basis: 33.33%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .quiz-box  .option:hover {
+    background-color: #ccc;
+  }
+
+  .custom-select .select-selected {
+    color: #fff;
+    color: #333;
+    border: 1px solid #000;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .custom-select .select-selected:hover {
+    background-color: #ccc;
+    border: 1px solid #000;
+  }
+  
+  .custom-select .select-selected.selected {
+    background-color: #007bff;
+    color: #fff;
+  }
+/* .quiz-box .select option {
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 16px;
+    border: none;
+}
+  
+.quiz-box  .select option:hover {
+    background-color: #ccc;
+  } */
